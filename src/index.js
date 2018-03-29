@@ -12,19 +12,34 @@ class CalculatorButton extends React.Component {
   }
 }
 
+class Screen extends React.Component {
+  render() {
+    return (
+      <div className="screen">0.123456789</div>
+    );
+  };
+}
+
 class Calculator extends React.Component {
   renderCalculatorButton(i) {
     return (
       <CalculatorButton
-      value={i}
-    />
+        value={i}
+      />
     );
   };
+
+  renderScreen() {
+    return (
+      <Screen
+      />
+    );
+  }
 
   render() {
     return (
       <div className="calculator-container">
-        <div className="result">0.123456789</div>
+        <div>{this.renderScreen()}</div>
         <div className="calculator-button-row">
           <div>{this.renderCalculatorButton(1)}</div>
           <div>{this.renderCalculatorButton(2)}</div>
