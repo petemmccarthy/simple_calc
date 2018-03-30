@@ -24,10 +24,13 @@ class Screen extends React.Component {
 
 class Calculator extends React.Component {
   constructor(props) {
+    const calculatorButtons = ['1', '2', '3', '4', '5', '6',
+      '7', '8', '9', '0', '+', '-', 'C', 'AC', '.', '='];
     super();
     this.state = {
-      calculatorButtons: ['1', '2', '3', '4', '5', '6',
-        '7', '8', '9', '0', '+', '-', 'C', 'AC', '.', '=']
+        calculatorButtons: calculatorButtons,
+        numbers: [],
+        displayNum: 0
     }
   }
 
@@ -41,11 +44,26 @@ class Calculator extends React.Component {
   };
 
   handleClick(i) {
-    let num = this.state.calculatorButtons[i];
-    if(num === 'C' || num === 'AC') {
-      this.setState({ num: 0 });
+    let selectedKey = this.state.calculatorButtons[i];
+    let newNum = parseInt(selectedKey);
+
+    this.setState({ displayNum: 0 });
+
+    if(selectedKey === 'C' || selectedKey === 'AC') {
+        this.setState({ numbers: []});
+    } else if (selectedKey === '=') {
+        let sum = this.state.numbers.reduce(add, 0);
+        this.setState({ displayNum: sum,
+          numbers: [] });
     } else {
-      this.setState({ num: num });
+        if (isNaN(newNum)) {
+        newNum = this.state.numbers[this.state.numbers.length -1];
+        this.setState({ displayNum: newNum });
+        return;
+      }
+      this.state.numbers.push(newNum);
+      this.setState({ displayNum: newNum,
+      numbers: this.state.numbers });
     }
 
   }
@@ -53,7 +71,7 @@ class Calculator extends React.Component {
   renderScreen(i) {
     return (
       <Screen
-        value={this.state.num}
+        value={this.state.displayNum}
       />
     );
   }
@@ -92,3 +110,7 @@ class Calculator extends React.Component {
 }
 
 ReactDOM.render(<Calculator />, document.getElementById('root'));
+
+function add(a, b) {
+  return a + b;
+};
