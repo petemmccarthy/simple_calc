@@ -29,8 +29,9 @@ class Calculator extends React.Component {
     super();
     this.state = {
         calculatorButtons: calculatorButtons,
-        numbers: [],
-        displayNum: 0
+        displayNum: 0,
+        adding: false,
+        subtracting: false
     }
   }
 
@@ -47,23 +48,49 @@ class Calculator extends React.Component {
     let selectedKey = this.state.calculatorButtons[i];
     let newNum = parseInt(selectedKey);
 
-    this.setState({ displayNum: 0 });
+    // this.setState({ displayNum: 0 });
+
+    if(selectedKey === '+') {
+      this.setState({ adding: true });
+      this.setState({ displayNum: this.state.displayNum });
+      return;
+    }
+
+    if(selectedKey === '-') {
+        this.setState({ subtracting: true });
+        this.setState({ displayNum: this.state.displayNum });
+        return;
+    }
+
+    if (this.state.adding) {
+      let currentNum = this.state.displayNum;
+      let sumNums = add(currentNum, newNum)
+      this.setState({ displayNum: sumNums,
+        adding: false
+      });
+      return;
+    }
+
+    if (this.state.subtracting) {
+      let currentNum = this.state.displayNum;
+      let sumNums = subtract(currentNum, newNum)
+      this.setState({ displayNum: sumNums,
+        subtracting: false
+      });
+      return;
+    }
 
     if(selectedKey === 'C' || selectedKey === 'AC') {
-        this.setState({ numbers: []});
+        this.setState({ displayNum: 0 });
     } else if (selectedKey === '=') {
         let sum = this.state.numbers.reduce(add, 0);
-        this.setState({ displayNum: sum,
-          numbers: [] });
+        this.setState({ displayNum: sum });
     } else {
         if (isNaN(newNum)) {
-        newNum = this.state.numbers[this.state.numbers.length -1];
-        this.setState({ displayNum: newNum });
-        return;
-      }
-      this.state.numbers.push(newNum);
-      this.setState({ displayNum: newNum,
-      numbers: this.state.numbers });
+          this.setState({ displayNum: this.state.displayNum });
+          return;
+        }
+      this.setState({ displayNum: newNum });
     }
 
   }
@@ -113,4 +140,8 @@ ReactDOM.render(<Calculator />, document.getElementById('root'));
 
 function add(a, b) {
   return a + b;
+};
+
+function subtract(a, b) {
+  return a - b;
 };
