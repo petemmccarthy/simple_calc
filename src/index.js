@@ -29,7 +29,7 @@ class Calculator extends React.Component {
     super();
     this.state = {
         calculatorButtons: calculatorButtons,
-        displayNum: 0,
+        displayNum: '0',
         adding: false,
         subtracting: false
     }
@@ -45,10 +45,10 @@ class Calculator extends React.Component {
   };
 
   handleClick(i) {
-    let selectedKey = this.state.calculatorButtons[i];
-    let newNum = parseInt(selectedKey);
+    this.setState({ displayNum: '0' });
 
-    // this.setState({ displayNum: 0 });
+    let selectedKey = this.state.calculatorButtons[i];
+    let currentNum = this.state.displayNum;
 
     if(selectedKey === '+') {
       this.setState({ adding: true });
@@ -63,8 +63,9 @@ class Calculator extends React.Component {
     }
 
     if (this.state.adding) {
-      let currentNum = this.state.displayNum;
-      let sumNums = add(currentNum, newNum)
+      currentNum = parseFloat(currentNum)
+      let nextNum = parseFloat(selectedKey)
+      let sumNums = add(currentNum, nextNum)
       this.setState({ displayNum: sumNums,
         adding: false
       });
@@ -72,8 +73,9 @@ class Calculator extends React.Component {
     }
 
     if (this.state.subtracting) {
-      let currentNum = this.state.displayNum;
-      let sumNums = subtract(currentNum, newNum)
+      currentNum = parseFloat(currentNum);
+      let nextNum = parseFloat(selectedKey)
+      let sumNums = subtract(currentNum, nextNum)
       this.setState({ displayNum: sumNums,
         subtracting: false
       });
@@ -81,16 +83,19 @@ class Calculator extends React.Component {
     }
 
     if(selectedKey === 'C' || selectedKey === 'AC') {
-        this.setState({ displayNum: 0 });
+        this.setState({ displayNum: '0' });
     } else if (selectedKey === '=') {
-        let sum = this.state.numbers.reduce(add, 0);
-        this.setState({ displayNum: sum });
+        this.setState({ displayNum: this.state.displayNum });
+        return;
     } else {
-        if (isNaN(newNum)) {
-          this.setState({ displayNum: this.state.displayNum });
-          return;
-        }
-      this.setState({ displayNum: newNum });
+      if (currentNum.charAt(0) === '0') {
+        currentNum = currentNum.slice(1);
+      }
+        // if (isNaN(newNum)) {
+        //   this.setState({ displayNum: this.state.displayNum });
+        //   return;
+        // }
+      this.setState({ displayNum: currentNum + selectedKey });
     }
 
   }
