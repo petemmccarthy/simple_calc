@@ -2,6 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const add = (num1, num2) => num1 + num2;
+const subtract = (num1, num2) => num1 - num2;
+
 class CalculatorButton extends React.Component {
   render() {
     return (
@@ -30,8 +33,9 @@ class Calculator extends React.Component {
     this.state = {
         calculatorButtons: calculatorButtons,
         displayNum: '0',
-        adding: false,
-        subtracting: false
+        add: false,
+        subtract: false,
+        numOne: 0
     }
   }
 
@@ -48,53 +52,44 @@ class Calculator extends React.Component {
     this.setState({ displayNum: '0' });
 
     let selectedKey = this.state.calculatorButtons[i];
-    let currentNum = this.state.displayNum;
+
+    let currentNum;
+    let numTwo = this.state.displayNum;
 
     if(selectedKey === '+') {
-      this.setState({ adding: true });
+      this.state.numOne = parseFloat(this.state.displayNum);
+      console.log("numOne=" + this.state.numOne + " numTwo=" + numTwo);
+      this.setState({ add: true });
       this.setState({ displayNum: this.state.displayNum });
       return;
     }
 
     if(selectedKey === '-') {
-        this.setState({ subtracting: true });
+        this.setState({ subtract: true });
         this.setState({ displayNum: this.state.displayNum });
         return;
-    }
-
-    if (this.state.adding) {
-      currentNum = parseFloat(currentNum)
-      let nextNum = parseFloat(selectedKey)
-      let sumNums = add(currentNum, nextNum)
-      this.setState({ displayNum: sumNums,
-        adding: false
-      });
-      return;
-    }
-
-    if (this.state.subtracting) {
-      currentNum = parseFloat(currentNum);
-      let nextNum = parseFloat(selectedKey)
-      let sumNums = subtract(currentNum, nextNum)
-      this.setState({ displayNum: sumNums,
-        subtracting: false
-      });
-      return;
     }
 
     if(selectedKey === 'C' || selectedKey === 'AC') {
         this.setState({ displayNum: '0' });
     } else if (selectedKey === '=') {
+      if (this.state.add) {
+          console.log("numOne=" + this.state.numOne + " numTwo=" + numTwo);
+          let numOne = parseFloat(this.state.numOne);
+          numTwo = parseFloat(this.state.displayNum);
+          let sumNums = add(numOne, numTwo)
+          this.setState({ displayNum: sumNums,
+            add: false
+          });
+        return;
+      }
         this.setState({ displayNum: this.state.displayNum });
         return;
     } else {
+      currentNum = '0';
       if (currentNum.charAt(0) === '0') {
         currentNum = currentNum.slice(1);
       }
-        // if (isNaN(newNum)) {
-        //   this.setState({ displayNum: this.state.displayNum });
-        //   return;
-        // }
       this.setState({ displayNum: currentNum + selectedKey });
     }
 
@@ -142,11 +137,3 @@ class Calculator extends React.Component {
 }
 
 ReactDOM.render(<Calculator />, document.getElementById('root'));
-
-function add(a, b) {
-  return a + b;
-};
-
-function subtract(a, b) {
-  return a - b;
-};
