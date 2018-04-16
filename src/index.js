@@ -91,24 +91,33 @@ class Calculator extends React.Component {
           sumNums = add(numOne, numTwo)
           this.setState({ displayNum: sumNums,
             add: false,
-            numOne: 0
+            numOne: sumNums
           });
         return;
       }
       if (subtracting) {
           sumNums = subtract(numOne, numTwo)
           this.setState({ displayNum: sumNums,
-            add: false,
-            numOne: 0
+            subtract: false,
+            numOne: sumNums
           });
         return;
       }
         this.setState({ displayNum: this.state.displayNum });
     } else {
-      currentNum = this.state.displayNum;
+      currentNum = (this.state.displayNum).toString();
       console.log("currentNum = " + currentNum + ", numOne = " + numOne);
       if (currentNum.charAt(0) === '0') {
         currentNum = currentNum.slice(1);
+      }
+      if (currentNum.charAt(0) === '.') {
+        currentNum = '0' + currentNum;
+      }
+      if (adding || subtracting) {
+          this.setState({ displayNum: selectedKey,
+            numOne: currentNum
+          });
+        return;
       }
       this.setState({ displayNum: currentNum + selectedKey });
     }
