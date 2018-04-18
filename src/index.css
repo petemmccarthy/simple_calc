@@ -3,7 +3,7 @@ body {
 }
 
 .calculator-container {
-  background: #3f4b5b;
+  background-image: linear-gradient(to bottom right, #484c54, #979ca3);
   border: 1px solid #999;
   border-radius: 10px;
   padding: 5px 5px 7px 5px;
@@ -11,10 +11,10 @@ body {
 }
 
 .calculator-button {
-  background: #697d9e;
+  background-image: linear-gradient(to bottom right, #888, #eee);
   border: 1px solid #999;
   border-radius: 5px;
-  box-shadow: 1px 2px #888888;
+  box-shadow: 1px 1px #888888;
   height: 50px;
   width: 50px;
   float: left;
@@ -24,8 +24,7 @@ body {
 }
 
 .calculator-button:active {
-  box-shadow: 0 0px 0 #888888;
-  top: 3px;
+  box-shadow: inset 1px 1px 1px black;
 }
 
 .calculator-button-row:after {
