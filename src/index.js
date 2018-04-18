@@ -77,7 +77,12 @@ class Calculator extends React.Component {
         return;
     }
 
-    if(selectedKey === 'C' || selectedKey === 'AC') {
+    if(selectedKey === 'C') {
+        this.setState({ displayNum: '0'});
+        return;
+    }
+
+    if(selectedKey === 'AC') {
         this.setState({ displayNum: '0',
         add: false,
         subtract: false,
