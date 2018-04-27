@@ -33,6 +33,7 @@ class Calculator extends React.Component {
     this.state = {
         calculatorButtons: calculatorButtons,
         displayNum: '0',
+        prevKey: '',
         add: false,
         subtract: false,
         numOne: 0
@@ -49,69 +50,124 @@ class Calculator extends React.Component {
   };
 
   handleClick(i) {
-    this.setState({ displayNum: '0' });
 
     let selectedKey = this.state.calculatorButtons[i];
     let adding = this.state.add;
     let subtracting = this.state.subtract;
     let currentNum;
+    let prevKey = (this.state.prevKey);
     let numOne = this.state.numOne;
     let numTwo;
     let sumNums;
 
     if(selectedKey === '+') {
+      if (subtracting) {
+        numOne = parseFloat(this.state.numOne);
+        numTwo = parseFloat(this.state.displayNum);
+        sumNums = subtract(numOne, numTwo)
+        this.setState({
+          displayNum: sumNums
+        });
+        numOne = sumNums;
+      } else if (adding) {
+        numOne = parseFloat(this.state.numOne);
+        numTwo = parseFloat(this.state.displayNum);
+        sumNums = add(numOne, numTwo)
+        this.setState({
+          displayNum: sumNums
+        });
+        numOne = sumNums;
+      } else {
         numOne = parseFloat(this.state.displayNum);
-        this.setState({ add: true,
-          numOne: numOne,
-          displayNum: this.state.displayNum
+      }
+      this.setState({
+        prevKey: selectedKey,
+        add: true,
+        subtract: false,
+        numOne: numOne
       });
       return;
     }
 
     if(selectedKey === '-') {
-        numOne = parseFloat(this.state.displayNum);
-        this.setState({ subtract: true,
-          numOne: numOne,
-          displayNum: this.state.displayNum
+      if (adding) {
+        numOne = parseFloat(this.state.numOne);
+        numTwo = parseFloat(this.state.displayNum);
+        sumNums = add(numOne, numTwo);
+        this.setState({
+          displayNum: sumNums
         });
-        return;
+        numOne = sumNums;
+      } else if (subtracting) {
+        numOne = parseFloat(this.state.numOne);
+        numTwo = parseFloat(this.state.displayNum);
+        sumNums = subtract(numOne, numTwo)
+        this.setState({
+          displayNum: sumNums
+        });
+        numOne = sumNums;
+      } else {
+        numOne = parseFloat(this.state.displayNum);
+      }
+      this.setState({
+        prevKey: selectedKey,
+        add: false,
+        subtract: true,
+        numOne: numOne
+      });
+      return;
     }
 
     if(selectedKey === 'C') {
-        this.setState({ displayNum: '0'});
-        return;
+      this.setState({
+        prevKey: selectedKey,
+        displayNum: '0'
+      });
+      return;
     }
 
     if(selectedKey === 'AC') {
-        this.setState({ displayNum: '0',
+      this.setState({
+        prevKey: selectedKey,
+        displayNum: '0',
         add: false,
         subtract: false,
         numOne: 0
-        });
+      });
     } else if (selectedKey === '=') {
       numOne = parseFloat(this.state.numOne);
       numTwo = parseFloat(this.state.displayNum);
-
       if (adding) {
-          sumNums = add(numOne, numTwo)
-          this.setState({ displayNum: sumNums,
-            add: false,
-            numOne: sumNums
-          });
+        sumNums = add(numOne, numTwo)
+        this.setState({
+          prevKey: selectedKey,
+          displayNum: sumNums,
+          add: false,
+          numOne: sumNums
+        });
         return;
       }
       if (subtracting) {
-          sumNums = subtract(numOne, numTwo)
-          this.setState({ displayNum: sumNums,
-            subtract: false,
-            numOne: sumNums
-          });
+        sumNums = subtract(numOne, numTwo)
+        this.setState({
+          prevKey: selectedKey,
+          displayNum: sumNums,
+          subtract: false,
+          numOne: sumNums
+        });
         return;
       }
-        this.setState({ displayNum: this.state.displayNum });
+      this.setState({
+        prevKey: selectedKey,
+        displayNum: this.state.displayNum
+      });
     } else {
+
       currentNum = (this.state.displayNum).toString();
-      console.log("currentNum = " + currentNum + ", numOne = " + numOne);
+
+      if(prevKey === '+' || prevKey === '-') {
+        currentNum = '';
+      }
       if (currentNum.charAt(0) === '0') {
         currentNum = currentNum.slice(1);
       }
@@ -119,14 +175,24 @@ class Calculator extends React.Component {
         currentNum = '0' + currentNum;
       }
       if (adding || subtracting) {
-          this.setState({ displayNum: selectedKey,
-            numOne: currentNum
+        if(prevKey !== '+' || prevKey !== '-') {
+          this.setState({
+            prevKey: selectedKey,
+            displayNum: currentNum + selectedKey
           });
+        } else {
+          this.setState({
+            prevKey: selectedKey,
+            displayNum: prevKey + selectedKey
+          });
+        }
         return;
       }
-      this.setState({ displayNum: currentNum + selectedKey });
+      this.setState({
+        prevKey: selectedKey,
+        displayNum: currentNum + selectedKey
+      });
     }
-
   }
 
   renderScreen(i) {
