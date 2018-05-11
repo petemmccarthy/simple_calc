@@ -2,8 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const add = (num1, num2) => num1 + num2;
-const subtract = (num1, num2) => num1 - num2;
+const add = (num1, num2) => {
+  if (num1 < 1 || num2 < 1) {
+    num1 = num1 * 100;
+    num2 = num2 * 100;
+    let total = ((num1 + num2) / 10);
+    return total;
+  }
+  return num1 + num2;
+};
+
+const subtract = (num1, num2) => {
+  if (num1 < 1 || num2 < 1) {
+    num1 = num1 * 100;
+    num2 = num2 * 100;
+    let total = ((num1 - num2) / 10);
+    return total;
+  }
+  return num1 - num2;
+};
 
 class CalculatorButton extends React.Component {
   render() {
