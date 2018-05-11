@@ -4,9 +4,10 @@ import './index.css';
 
 const add = (num1, num2) => {
   if (num1 < 1 || num2 < 1) {
+    let total;
     num1 = num1 * 100;
     num2 = num2 * 100;
-    let total = ((num1 + num2) / 10);
+    total = ((num1 + num2) / 100);
     return total;
   }
   return num1 + num2;
@@ -14,9 +15,10 @@ const add = (num1, num2) => {
 
 const subtract = (num1, num2) => {
   if (num1 < 1 || num2 < 1) {
+    let total;
     num1 = num1 * 100;
     num2 = num2 * 100;
-    let total = ((num1 - num2) / 10);
+    total = ((num1 - num2) / 100);
     return total;
   }
   return num1 - num2;
