@@ -1,6 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import Screen from './Screen'
+
+import './index.css'
 
 const add = (num1, num2) => {
   let addTotal;
@@ -18,7 +20,7 @@ const subtract = (num1, num2) => {
   return subtractTotal;
 };
 
-class CalculatorButton extends React.Component {
+class CalculatorButton extends Component {
   render() {
     return (
       <button className="calculator-button"  onClick={this.props.onClick}>
@@ -28,21 +30,11 @@ class CalculatorButton extends React.Component {
   }
 }
 
-class Screen extends React.Component {
-  render() {
-    return (
-      <div className="screen">
-        {this.props.value}
-      </div>
-    );
-  };
-}
-
-class Calculator extends React.Component {
+class Calculator extends Component {
   constructor(props) {
+    super();
     const calculatorButtons = ['1', '2', '3', '4', '5', '6',
       '7', '8', '9', '0', '+', '-', 'C', 'AC', '.', '='];
-    super();
     this.state = {
         calculatorButtons: calculatorButtons,
         displayNum: '0',
@@ -208,18 +200,12 @@ class Calculator extends React.Component {
     }
   }
 
-  renderScreen(i) {
-    return (
-      <Screen
-        value={this.state.displayNum}
-      />
-    );
-  }
-
   render() {
     return (
       <div className="calculator-container">
-        <div>{this.renderScreen()}</div>
+        <Screen
+          displayNum={this.state.displayNum}
+        />
         <div className="calculator-button-row">
           <div>{this.renderCalculatorButton(0)}</div>
           <div>{this.renderCalculatorButton(1)}</div>
