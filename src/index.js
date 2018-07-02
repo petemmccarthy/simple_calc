@@ -1,24 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Screen from './Screen'
-
 import './index.css'
-
-const add = (num1, num2) => {
-  let addTotal;
-  num1 = num1 * 100;
-  num2 = num2 * 100;
-  addTotal = ((num1 + num2) / 100);
-  return addTotal;
-};
-
-const subtract = (num1, num2) => {
-  let subtractTotal;
-  num1 = num1 * 100;
-  num2 = num2 * 100;
-  subtractTotal = ((num1 - num2) / 100);
-  return subtractTotal;
-};
+import { add, subtract } from './utils/calculationTypes'
 
 class CalculatorButton extends Component {
   render() {
@@ -55,6 +39,9 @@ class Calculator extends Component {
   };
 
   handleClick(i) {
+
+    // destructure - but remember that adding = add and subtracting = subtract in state!!
+    // const {adding, subtracting, prevKey, numOne } = this.state;
 
     let selectedKey = this.state.calculatorButtons[i];
     let adding = this.state.add;
