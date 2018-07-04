@@ -40,17 +40,9 @@ class Calculator extends Component {
 
   handleClick(i) {
 
-    // destructure - but remember that adding = add and subtracting = subtract in state!!
-    // const {adding, subtracting, prevKey, numOne } = this.state;
-
+    let { adding, subtracting, prevKey, numOne } = this.state;
     let selectedKey = this.state.calculatorButtons[i];
-    let adding = this.state.add;
-    let subtracting = this.state.subtract;
-    let currentNum;
-    let prevKey = (this.state.prevKey);
-    let numOne = this.state.numOne;
-    let numTwo;
-    let sumNums;
+    let currentNum, numTwo, sumNums;
 
     if(selectedKey === '+') {
       if (subtracting) {
@@ -74,8 +66,8 @@ class Calculator extends Component {
       }
       this.setState({
         prevKey: selectedKey,
-        add: true,
-        subtract: false,
+        adding: true,
+        subtracting: false,
         numOne: numOne
       });
       return;
@@ -103,8 +95,8 @@ class Calculator extends Component {
       }
       this.setState({
         prevKey: selectedKey,
-        add: false,
-        subtract: true,
+        adding: false,
+        subtracting: true,
         numOne: numOne
       });
       return;
@@ -122,8 +114,8 @@ class Calculator extends Component {
       this.setState({
         prevKey: selectedKey,
         displayNum: '0',
-        add: false,
-        subtract: false,
+        adding: false,
+        subtracting: false,
         numOne: 0
       });
     } else if (selectedKey === '=') {
@@ -134,7 +126,7 @@ class Calculator extends Component {
         this.setState({
           prevKey: selectedKey,
           displayNum: sumNums,
-          add: false,
+          adding: false,
           numOne: sumNums
         });
         return;
@@ -144,7 +136,7 @@ class Calculator extends Component {
         this.setState({
           prevKey: selectedKey,
           displayNum: sumNums,
-          subtract: false,
+          subtracting: false,
           numOne: sumNums
         });
         return;
