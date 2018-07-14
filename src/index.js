@@ -1,68 +1,41 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import Screen from './Screen'
+import CalculatorButton from './CalculatorButton'
 import './index.css'
-import { add, subtract } from './utils/calculationTypes'
-
-class CalculatorButton extends Component {
-  render() {
-    return (
-      <button className="calculator-button"  onClick={this.props.onClick}>
-        {this.props.value}
-      </button>
-    );
-  }
-}
+import { add, subtract, calculatorButtons } from './utils/calculationTypes'
 
 class Calculator extends Component {
-  constructor(props) {
-    super();
-    const calculatorButtons = ['1', '2', '3', '4', '5', '6',
-      '7', '8', '9', '0', '+', '-', 'C', 'AC', '.', '='];
-    this.state = {
-        calculatorButtons: calculatorButtons,
-        displayNum: '0',
-        prevKey: '',
-        add: false,
-        subtract: false,
-        numOne: 0
-    }
-  }
 
-  renderCalculatorButton(i) {
-    return (
-      <CalculatorButton
-        value={this.state.calculatorButtons[i]}
-        onClick={() => this.handleClick(i)}
-      />
-    );
-  };
+    state = {
+        displayNum: '0',
+    }
 
   handleClick(i) {
 
-    let { adding, subtracting, prevKey, numOne } = this.state;
-    let selectedKey = this.state.calculatorButtons[i];
+    let { displayNum, adding, subtracting, prevKey, numOne } = this.state;
+    let selectedKey = i;
     let currentNum, numTwo, sumNums;
 
     if(selectedKey === '+') {
       if (subtracting) {
-        numOne = parseFloat(this.state.numOne);
-        numTwo = parseFloat(this.state.displayNum);
+        numOne = parseFloat(numOne);
+        numTwo = parseFloat(displayNum);
         sumNums = subtract(numOne, numTwo)
         this.setState({
           displayNum: sumNums
         });
         numOne = sumNums;
       } else if (adding) {
-        numOne = parseFloat(this.state.numOne);
-        numTwo = parseFloat(this.state.displayNum);
+        numOne = parseFloat(numOne);
+        numTwo = parseFloat(displayNum);
         sumNums = add(numOne, numTwo)
         this.setState({
           displayNum: sumNums
         });
         numOne = sumNums;
       } else {
-        numOne = parseFloat(this.state.displayNum);
+        numOne = parseFloat(displayNum);
       }
       this.setState({
         prevKey: selectedKey,
@@ -75,23 +48,23 @@ class Calculator extends Component {
 
     if(selectedKey === '-') {
       if (adding) {
-        numOne = parseFloat(this.state.numOne);
-        numTwo = parseFloat(this.state.displayNum);
+        numOne = parseFloat(numOne);
+        numTwo = parseFloat(displayNum);
         sumNums = add(numOne, numTwo);
         this.setState({
           displayNum: sumNums
         });
         numOne = sumNums;
       } else if (subtracting) {
-        numOne = parseFloat(this.state.numOne);
-        numTwo = parseFloat(this.state.displayNum);
+        numOne = parseFloat(numOne);
+        numTwo = parseFloat(displayNum);
         sumNums = subtract(numOne, numTwo)
         this.setState({
           displayNum: sumNums
         });
         numOne = sumNums;
       } else {
-        numOne = parseFloat(this.state.displayNum);
+        numOne = parseFloat(displayNum);
       }
       this.setState({
         prevKey: selectedKey,
@@ -119,8 +92,8 @@ class Calculator extends Component {
         numOne: 0
       });
     } else if (selectedKey === '=') {
-      numOne = parseFloat(this.state.numOne);
-      numTwo = parseFloat(this.state.displayNum);
+      numOne = parseFloat(numOne);
+      numTwo = parseFloat(displayNum);
       if (adding) {
         sumNums = add(numOne, numTwo)
         this.setState({
@@ -143,11 +116,11 @@ class Calculator extends Component {
       }
       this.setState({
         prevKey: selectedKey,
-        displayNum: this.state.displayNum
+        displayNum: displayNum
       });
     } else {
 
-      currentNum = (this.state.displayNum).toString();
+      currentNum = (displayNum).toString();
 
       if(prevKey === '+' || prevKey === '-') {
         currentNum = '';
@@ -180,34 +153,21 @@ class Calculator extends Component {
   }
 
   render() {
+    const buttons = calculatorButtons.map( (button, index) => {
+      return <CalculatorButton
+                key={index}
+                value={button}
+                onClick={() => this.handleClick(button)}
+            />
+    })
+
     return (
       <div className="calculator-container">
         <Screen
           displayNum={this.state.displayNum}
         />
         <div className="calculator-button-row">
-          <div>{this.renderCalculatorButton(0)}</div>
-          <div>{this.renderCalculatorButton(1)}</div>
-          <div>{this.renderCalculatorButton(2)}</div>
-          <div>{this.renderCalculatorButton(3)}</div>
-        </div>
-        <div className="calculator-button-row">
-          <div>{this.renderCalculatorButton(4)}</div>
-          <div>{this.renderCalculatorButton(5)}</div>
-          <div>{this.renderCalculatorButton(6)}</div>
-          <div>{this.renderCalculatorButton(7)}</div>
-        </div>
-        <div className="calculator-button-row">
-          <div>{this.renderCalculatorButton(8)}</div>
-          <div>{this.renderCalculatorButton(9)}</div>
-          <div>{this.renderCalculatorButton(10)}</div>
-          <div>{this.renderCalculatorButton(11)}</div>
-        </div>
-        <div className="calculator-button-row">
-          <div>{this.renderCalculatorButton(12)}</div>
-          <div>{this.renderCalculatorButton(13)}</div>
-          <div>{this.renderCalculatorButton(14)}</div>
-          <div>{this.renderCalculatorButton(15)}</div>
+          <div>{buttons}</div>
         </div>
       </div>
     );
