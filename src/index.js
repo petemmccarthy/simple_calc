@@ -6,15 +6,19 @@ import './index.css'
 import { add, subtract, calculatorButtons } from './utils/calculationTypes'
 
 class Calculator extends Component {
+  constructor(props) {
+    super(props)
 
-    state = {
+    this.state = {
         displayNum: '0',
     }
+  }
 
-  handleClick(i) {
+
+  handleClick(button) {
 
     let { displayNum, adding, subtracting, prevKey, numOne } = this.state;
-    let selectedKey = i;
+    let selectedKey = button;
     let currentNum, numTwo, sumNums;
 
     if(selectedKey === '+') {
