@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import Screen from './Screen'
 import CalculatorButton from './CalculatorButton'
 import './index.css'
-import { add, subtract, calculatorButtons } from './utils/calculationTypes'
+import { add, subtract} from './utils/calculationTypes'
 
 class Calculator extends Component {
   constructor(props) {
@@ -12,8 +12,8 @@ class Calculator extends Component {
     this.state = {
         displayNum: '0',
     }
+    this.handleClick = this.handleClick.bind(this)
   }
-
 
   handleClick(button) {
 
@@ -157,22 +157,14 @@ class Calculator extends Component {
   }
 
   render() {
-    const buttons = calculatorButtons.map( (button, index) => {
-      return <CalculatorButton
-                key={index}
-                value={button}
-                onClick={() => this.handleClick(button)}
-            />
-    })
-
     return (
       <div className="calculator-container">
         <Screen
           displayNum={this.state.displayNum}
         />
-        <div className="calculator-button-row">
-          <div>{buttons}</div>
-        </div>
+        <CalculatorButton
+          handleClick={this.handleClick}
+        />
       </div>
     );
   }
