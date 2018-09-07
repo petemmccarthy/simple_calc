@@ -1,9 +1,7 @@
 import React from 'react'
 import { add, subtract, calculatorButtons } from './CalculationTypes'
-import Enzyme, { shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
-
-Enzyme.configure( { adapter: new Adapter() })
+import Enzyme from 'enzyme'
+// import Adapter from 'enzyme-adapter-react-16'
 
 describe('CalculationTypes component', () => {
   describe('add utility function', () => {
