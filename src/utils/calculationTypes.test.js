@@ -7,14 +7,14 @@ Enzyme.configure( { adapter: new Adapter() })
 
 describe('CalculationTypes component', () => {
   describe('add utility function', () => {
-    it('should add add two numbers', () => {
+    it('should add two numbers', () => {
       expect(add(4, 5)).toEqual(9)
       expect(add(3.44, 45.6)).toEqual(49.04)
     })
   })
 
   describe('subtract utility function', () => {
-    it('should subract add two numbers', () => {
+    it('should subract two numbers', () => {
       expect(subtract(12, 8)).toEqual(4)
       expect(subtract(17.84, 26.77)).toEqual(-8.93)
     })
