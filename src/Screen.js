@@ -7,4 +7,5 @@ const Screen = (props) => (
   </div>
 
 )
+
 export default Screen
