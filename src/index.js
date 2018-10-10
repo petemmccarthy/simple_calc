@@ -12,10 +12,9 @@ class Calculator extends Component {
     this.state = {
         displayNum: '0',
     }
-    this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(button) {
+  handleClick = (button) => {
 
     let { displayNum, adding, subtracting, prevKey, numOne } = this.state;
     let selectedKey = button;
